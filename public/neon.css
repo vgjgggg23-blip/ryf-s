@@ -216,3 +216,12 @@ footer.site { box-shadow: none; }
 .hcard { background-color: color-mix(in srgb, var(--deep) 92%, var(--glow-a)); border: 1px solid color-mix(in srgb, var(--glow-a) 45%, transparent); animation: float3d 6s ease-in-out infinite, sway 7s ease-in-out infinite; }
 .hcard::before, .hcard::after { display: none; }
 @media (prefers-reduced-motion: reduce) { .hcard { animation: none; } }
+
+
+/* ===== ميلان ثلاثي الأبعاد عند مرور الماوس فقط، ويرجع طبيعي عند الابتعاد ===== */
+.hgrid { perspective: none; }
+.hcard, .store { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--sc, 1)); transition: transform .25s ease-out; will-change: transform; }
+.hcard { animation: none; transform-style: preserve-3d; }
+.hcard .rate { transform: translateZ(40px); }
+.hcard .row { transform: translateZ(20px); }
+@media (prefers-reduced-motion: reduce) { .hcard, .store { transform: none; } }
