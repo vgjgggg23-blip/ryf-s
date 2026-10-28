@@ -38,10 +38,10 @@
         var k = Math.random();
         stars.push({
           x: Math.random() * W, y: Math.random() * H, z: z,
-          r: 0.6 + z * 1.7 * (Math.random() < 0.08 ? 1.8 : 1),
+          r: 0.5 + z * 1.1 * (Math.random() < 0.08 ? 1.6 : 1),
           ph: Math.random() * 6.28, sp: 0.6 + Math.random() * 1.8,
           vy: 0.004 + z * 0.012,
-          col: k < 0.45 ? A : k < 0.9 ? B : [255, 255, 255],
+          col: [255, 255, 255],
           ox: 0, oy: 0, vx: 0, vv: 0,
         });
       }
@@ -101,7 +101,7 @@
         s.vx += -s.ox * 0.035; s.vv += -s.oy * 0.035;
         s.vx *= 0.9; s.vv *= 0.9; s.ox += s.vx; s.oy += s.vv;
 
-        {
+        if (false) { /* بدون توهج: نقاط بيضاء فقط */
           ctx.fillStyle = c(s.col, a * 0.22);
           ctx.beginPath(); ctx.arc(px, py, r * 4.2, 0, 6.283); ctx.fill();
         }
