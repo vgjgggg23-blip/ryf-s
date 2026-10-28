@@ -1,0 +1,117 @@
+/* ===== طبقة النيون والحركة — تعتمد على الألوان الستة من لوحة التحكم ===== */
+:root {
+  --glow-a: var(--accent);
+  --glow-b: var(--gold);
+  --neon-a: color-mix(in srgb, var(--glow-a) 70%, transparent);
+  --neon-b: color-mix(in srgb, var(--glow-b) 70%, transparent);
+  --glass: color-mix(in srgb, var(--surface) 58%, transparent);
+}
+
+/* canvas النجوم (خلف كل المحتوى) */
+#fx { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; display: block; }
+header.top, main, footer.site { position: relative; z-index: 1; }
+header.top { position: sticky; }
+body {
+  background:
+    radial-gradient(1200px 700px at 85% -10%, color-mix(in srgb, var(--glow-a) 20%, transparent), transparent 60%),
+    radial-gradient(900px 600px at 5% 110%, color-mix(in srgb, var(--glow-b) 14%, transparent), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+/* الهيدر */
+header.top { background: color-mix(in srgb, var(--surface) 55%, transparent); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); border-bottom: 0; }
+header.top::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--glow-a), var(--glow-b), var(--glow-a), transparent); background-size: 200% 100%; animation: slide 6s linear infinite; box-shadow: 0 0 14px var(--neon-a), 0 0 28px var(--neon-b); }
+@keyframes slide { to { background-position: -200% 0; } }
+.brand span:not(.logo) { text-shadow: 0 0 8px var(--neon-a), 0 0 22px var(--neon-a); }
+.logo { box-shadow: 0 0 10px var(--neon-a), 0 0 26px var(--neon-a); animation: flicker 5s infinite; }
+@keyframes flicker { 0%, 18%, 22%, 62%, 64%, 100% { opacity: 1; } 20%, 63% { opacity: .55; } }
+header nav a { transition: color .2s, text-shadow .2s, background .2s; }
+header nav a:hover { color: var(--fg); text-shadow: 0 0 10px var(--neon-a); }
+header nav a[aria-current="page"] { color: var(--glow-b); background: color-mix(in srgb, var(--glow-b) 10%, transparent); text-shadow: 0 0 10px var(--neon-b); box-shadow: inset 0 -2px 0 var(--glow-b), 0 6px 14px -8px var(--glow-b); }
+
+/* الأزرار */
+.btn { position: relative; overflow: hidden; transition: transform .2s, box-shadow .25s, filter .2s; }
+.btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%); transform: translateX(120%); transition: transform .6s; }
+.btn:hover::after { transform: translateX(-120%); }
+.btn:hover { transform: translateY(-2px); filter: none; }
+.btn.solid { background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, var(--glow-b))); box-shadow: 0 0 12px var(--neon-a), 0 0 34px color-mix(in srgb, var(--glow-a) 40%, transparent); }
+.btn.solid:hover { box-shadow: 0 0 18px var(--glow-a), 0 0 50px var(--neon-a); }
+.btn.light { box-shadow: 0 0 14px rgba(255,255,255,.35); }
+.btn.light:hover { box-shadow: 0 0 22px rgba(255,255,255,.7); }
+.btn.line { border-color: var(--glow-b); color: var(--glow-b); box-shadow: 0 0 10px var(--neon-b), inset 0 0 10px color-mix(in srgb, var(--glow-b) 22%, transparent); text-shadow: 0 0 8px var(--neon-b); }
+.btn.line:hover { box-shadow: 0 0 22px var(--glow-b), inset 0 0 16px var(--neon-b); }
+.btn.ghost { box-shadow: 0 0 8px color-mix(in srgb, var(--glow-a) 35%, transparent); }
+.btn.danger:hover { box-shadow: 0 0 14px #d9534f; }
+
+/* الواجهة الرئيسية */
+.hero { background: radial-gradient(700px 360px at 80% 20%, color-mix(in srgb, var(--glow-a) 22%, transparent), transparent 70%), linear-gradient(color-mix(in srgb, var(--deep) 12%, transparent), color-mix(in srgb, var(--deep) 30%, transparent)), var(--hero-img, none) center/cover; }
+.hero h1, .pagehead h1 { background: linear-gradient(90deg, var(--fg), var(--glow-a), var(--glow-b), var(--fg)); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 7s linear infinite; filter: drop-shadow(0 0 14px var(--neon-a)); }
+@keyframes shimmer { to { background-position: -300% 0; } }
+.kicker { color: var(--glow-b); text-shadow: 0 0 10px var(--neon-b), 0 0 24px var(--neon-b); animation: flicker 7s infinite; }
+.lead { color: color-mix(in srgb, var(--fg) 80%, transparent); }
+.stars { text-shadow: 0 0 8px var(--neon-b), 0 0 20px var(--neon-b); }
+.rate .num, .summary .num { text-shadow: 0 0 14px var(--neon-a), 0 0 34px var(--neon-a); color: var(--fg); }
+.summary .num { color: var(--glow-a); }
+
+/* الأقسام شفافة لتظهر النجوم */
+.alt { background: color-mix(in srgb, var(--fg) 3%, transparent); border-block: 1px solid color-mix(in srgb, var(--glow-a) 18%, transparent); }
+.pagehead { background: linear-gradient(180deg, color-mix(in srgb, var(--glow-a) 10%, transparent), transparent); border-bottom: 1px solid color-mix(in srgb, var(--glow-a) 25%, transparent); }
+.sec-head h2 { text-shadow: 0 0 16px var(--neon-a); }
+.sec-head h2::after { content: ""; display: block; width: 64px; height: 3px; border-radius: 3px; margin-top: 8px; background: linear-gradient(90deg, var(--glow-a), var(--glow-b)); box-shadow: 0 0 12px var(--neon-a); }
+.crumb a { text-shadow: 0 0 8px var(--neon-a); }
+
+/* البطاقات: زجاج + إطار نيون + إضاءة تتبع الماوس */
+.hcard, .store, .tile, .person, .srv, .review, .box, .acct, .summary, .mv > div, .empty {
+  background-color: var(--glass);
+  background-image: radial-gradient(260px circle at var(--mx, -999px) var(--my, -999px), color-mix(in srgb, var(--glow-a) 26%, transparent), transparent 70%);
+  border-color: color-mix(in srgb, var(--glow-a) 30%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow-a) 8%, transparent), 0 10px 30px -14px rgba(0,0,0,.7);
+  transition: border-color .25s, box-shadow .3s, transform .25s;
+}
+.hcard { border-color: var(--neon-a); animation: pulse 4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 14px color-mix(in srgb, var(--glow-a) 35%, transparent), inset 0 0 20px color-mix(in srgb, var(--glow-a) 10%, transparent); } 50% { box-shadow: 0 0 30px var(--neon-a), inset 0 0 30px color-mix(in srgb, var(--glow-a) 18%, transparent); } }
+.tile:hover, .person:hover, .srv:hover, .review:hover, .acct:hover { border-color: var(--glow-b); box-shadow: 0 0 16px var(--neon-b), 0 0 40px color-mix(in srgb, var(--glow-b) 22%, transparent); transform: translateY(-4px); }
+.tile .ico { box-shadow: 0 0 14px var(--neon-a); color: var(--glow-b); background: color-mix(in srgb, var(--glow-a) 15%, transparent); }
+.tile .go, .mv h3, .src { text-shadow: 0 0 10px var(--neon-a); }
+.pav, .sav, .srv .ic { box-shadow: 0 0 0 2px var(--glow-a), 0 0 18px var(--neon-a); }
+.person:hover .pav { box-shadow: 0 0 0 2px var(--glow-b), 0 0 26px var(--glow-b); }
+.rolechip { border: 1px solid var(--rc); box-shadow: 0 0 12px color-mix(in srgb, var(--rc) 45%, transparent); }
+.rolechip i { box-shadow: 0 0 8px var(--rc); }
+.role-b { box-shadow: 0 0 10px color-mix(in srgb, var(--glow-b) 40%, transparent); }
+.dots .on i { box-shadow: 0 0 8px #3ba55d; }
+.bar i::after { background: linear-gradient(90deg, var(--glow-a), var(--glow-b)); box-shadow: 0 0 10px var(--neon-b); }
+
+/* النماذج */
+.rform textarea, .fld input, .fld textarea { background: color-mix(in srgb, var(--deep) 70%, transparent); transition: border-color .2s, box-shadow .2s; }
+.rform textarea:focus, .fld input:focus, .fld textarea:focus { outline: none; border-color: var(--glow-b); box-shadow: 0 0 0 3px color-mix(in srgb, var(--glow-b) 25%, transparent), 0 0 18px var(--neon-b); }
+.starpick button { transition: transform .15s, color .15s, text-shadow .15s; }
+.starpick button:hover { transform: scale(1.25); }
+.starpick button.on { text-shadow: 0 0 10px var(--glow-b), 0 0 22px var(--glow-b); }
+.anav a { background: var(--glass); backdrop-filter: blur(8px); transition: box-shadow .2s, border-color .2s; }
+.anav a:hover { box-shadow: 0 0 12px var(--neon-a); }
+.toast { box-shadow: 0 0 20px var(--neon-a); border-color: var(--glow-a); }
+.flash.ok { box-shadow: 0 0 14px color-mix(in srgb, #3ba55d 40%, transparent); }
+.flash.err { box-shadow: 0 0 14px color-mix(in srgb, #d9534f 40%, transparent); }
+
+/* التذييل */
+footer.site { background: color-mix(in srgb, var(--deep) 72%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--neon-a); box-shadow: 0 -10px 40px -20px var(--glow-a); }
+.fcols h4 { color: var(--glow-b); text-shadow: 0 0 10px var(--neon-b); }
+.fcols a { transition: color .2s, text-shadow .2s, padding .2s; }
+.fcols a:hover { text-shadow: 0 0 10px var(--neon-a); padding-inline-start: 6px; }
+
+/* ظهور تدريجي عند التمرير (يفعّله fx.js) */
+.js .rv { opacity: 0; transform: translateY(22px) scale(.98); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+.js .rv.in { opacity: 1; transform: none; }
+
+/* شريط التمرير */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--glow-a), var(--glow-b)); border-radius: 8px; }
+::selection { background: var(--glow-a); color: var(--accent-fg); }
+
+@media (prefers-reduced-motion: reduce) {
+  header.top::after, .logo, .kicker, .hero h1, .pagehead h1, .hcard { animation: none; }
+  .js .rv { opacity: 1; transform: none; transition: none; }
+}
