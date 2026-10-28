@@ -115,3 +115,47 @@ footer.site { background: color-mix(in srgb, var(--deep) 72%, transparent); back
   header.top::after, .logo, .kicker, .hero h1, .pagehead h1, .hcard { animation: none; }
   .js .rv { opacity: 1; transform: none; transition: none; }
 }
+
+
+/* ===== إزالة التضليل الشفاف + تحسين التصميم ===== */
+.hero { background: radial-gradient(640px 320px at 82% 18%, color-mix(in srgb, var(--glow-a) 16%, transparent), transparent 70%); position: relative; isolation: isolate; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--hero-img, none) center/cover no-repeat; opacity: .28; -webkit-mask-image: linear-gradient(180deg, #000 0, #000 40%, transparent 100%); mask-image: linear-gradient(180deg, #000 0, #000 40%, transparent 100%); }
+.alt { background: none; border-block: 0; }
+.pagehead { background: none; border-bottom: 0; }
+footer.site { background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--deep) 85%, transparent) 45%); backdrop-filter: none; -webkit-backdrop-filter: none; border-top: 0; box-shadow: none; }
+.hero h1, .pagehead h1 { background: linear-gradient(90deg, #fff, color-mix(in srgb, var(--glow-a) 38%, #fff), #fff); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 10px color-mix(in srgb, var(--glow-a) 40%, transparent)); animation: shimmer2 10s linear infinite; }
+@keyframes shimmer2 { to { background-position: -200% 0; } }
+.kicker { background: none; }
+::selection { background: color-mix(in srgb, var(--glow-a) 55%, transparent); color: #fff; }
+
+/* زر الانتقال للسيرفر: قصير */
+.srv .bd { display: flex; flex-direction: column; gap: 8px; }
+.srv .bd .btn { margin-top: auto; align-self: stretch; padding: 6px 14px; font-size: .9rem; line-height: 1.6; height: auto; flex: 0 0 auto; }
+
+/* أقسام الرئيسية الجديدة */
+.feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+.feat, .step, .faq details, .ctaband { background: var(--glass); border: 1px solid color-mix(in srgb, var(--glow-a) 28%, transparent); border-radius: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.feat { padding: 22px; display: grid; gap: 6px; align-content: start; transition: transform .25s, border-color .25s, box-shadow .3s; }
+.feat:hover { transform: translateY(-4px); border-color: var(--glow-b); box-shadow: 0 0 18px var(--neon-b); }
+.feat .ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: var(--glow-b); background: color-mix(in srgb, var(--glow-a) 15%, transparent); box-shadow: 0 0 14px var(--neon-a); margin-bottom: 6px; }
+.feat h3 { font-size: 1.1rem; }
+.feat p, .step p, .faq details p, .ctaband p { color: color-mix(in srgb, var(--fg) 70%, transparent); font-size: .94rem; }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; counter-reset: s; }
+.step { padding: 22px; counter-increment: s; }
+.step::before { content: counter(s); display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; margin-bottom: 10px; font-weight: 700; background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 55%, var(--glow-b))); color: var(--accent-fg); box-shadow: 0 0 14px var(--neon-a); }
+.step h3 { font-size: 1.1rem; margin-bottom: 4px; }
+.faq { display: grid; gap: 10px; max-width: 760px; margin-inline: auto; }
+.faq details { padding: 0 18px; }
+.faq summary { cursor: pointer; padding: 14px 0; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--glow-b); font-size: 1.3rem; line-height: 1.2; }
+.faq details[open] summary::after { content: "\2013"; }
+.faq details p { padding-bottom: 14px; }
+.ctaband { padding: 36px 24px; text-align: center; display: grid; gap: 8px; justify-items: center; box-shadow: 0 0 30px color-mix(in srgb, var(--glow-a) 25%, transparent); }
+.ctaband h2 { font-size: clamp(1.5rem, 4vw, 2rem); text-shadow: 0 0 16px var(--neon-a); }
+.ctaband .cta { margin-top: 12px; justify-content: center; }
+
+/* زر العودة للأعلى */
+#up { position: fixed; inset-inline-end: 18px; bottom: 18px; z-index: 30; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--neon-a); background: var(--glass); backdrop-filter: blur(10px); color: var(--fg); font-size: 1.2rem; cursor: pointer; box-shadow: 0 0 14px var(--neon-a); }
+#up[hidden] { display: none; }
+#up:hover { box-shadow: 0 0 24px var(--glow-b); border-color: var(--glow-b); }
