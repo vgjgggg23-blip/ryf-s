@@ -58,6 +58,7 @@
     }
 
     function burst(x, y) {
+      return; /* شرارات النقر معطّلة */
       for (var i = 0; i < 18; i++) {
         var a = Math.random() * 6.28, s = 0.05 + Math.random() * 0.25;
         sparks.push({ x: x, y: y, dx: Math.cos(a) * s, dy: Math.sin(a) * s, life: 1, col: Math.random() < 0.5 ? A : B });
@@ -167,7 +168,7 @@
     function move(x, y) {
       mouse.x = x; mouse.y = y; mouse.on = true;
       par.tx = (x / W - 0.5) * -1; par.ty = (y / H - 0.5) * -1;
-      if (!reduce && trail.length < 40) trail.push({ x: x, y: y, life: 1, col: Math.random() < 0.5 ? A : B });
+      /* أثر الماوس معطّل */
     }
     window.addEventListener('pointermove', function (e) { move(e.clientX, e.clientY); }, { passive: true });
     window.addEventListener('pointerdown', function (e) { move(e.clientX, e.clientY); burst(e.clientX, e.clientY); }, { passive: true });
