@@ -12,7 +12,7 @@
     var mouse = { x: -9999, y: -9999, on: false };
     var par = { x: 0, y: 0, tx: 0, ty: 0 };
     var A = [109, 124, 255], B = [243, 185, 74];
-    var last = 0, nextShoot = 1200, running = true;
+    var last = 0, nextShoot = 600, running = true;
 
     function rgb(v, fb) {
       v = (v || '').trim();
@@ -53,7 +53,7 @@
       var sp = 0.7 + Math.random() * 0.6;
       shoots.push({
         x: Math.random() * W * 0.8 + W * 0.1, y: -20 + Math.random() * H * 0.4,
-        dx: Math.cos(ang) * sp, dy: Math.sin(ang) * sp, life: 1, col: Math.random() < 0.5 ? A : B,
+        dx: Math.cos(ang) * sp, dy: Math.sin(ang) * sp, life: 1, col: [255, 255, 255],
       });
     }
 
@@ -137,7 +137,7 @@
       /* شهب */
       if (!reduce) {
         nextShoot -= dt;
-        if (nextShoot <= 0) { nextShoot = 1e12; /* الشهب معطّلة */ }
+        if (nextShoot <= 0) { shoot(); nextShoot = 1800 + Math.random() * 400; }
       }
       for (var n = shoots.length - 1; n >= 0; n--) {
         var sh = shoots[n];
