@@ -41,7 +41,7 @@
           r: 0.6 + z * 1.7 * (Math.random() < 0.08 ? 1.8 : 1),
           ph: Math.random() * 6.28, sp: 0.6 + Math.random() * 1.8,
           vy: 0.004 + z * 0.012,
-          col: k < 0.55 ? [255, 255, 255] : k < 0.8 ? A : B,
+          col: k < 0.45 ? A : k < 0.9 ? B : [255, 255, 255],
           ox: 0, oy: 0, vx: 0, vv: 0,
         });
       }
@@ -73,7 +73,7 @@
       ctx.globalCompositeOperation = 'lighter';
 
       /* وهج حول المؤشر */
-      if (mouse.on) {
+      if (false && mouse.on) {
         var g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 230);
         g.addColorStop(0, c(A, 0.22)); g.addColorStop(0.5, c(B, 0.06)); g.addColorStop(1, c(A, 0));
         ctx.fillStyle = g; ctx.fillRect(mouse.x - 230, mouse.y - 230, 460, 460);
@@ -101,9 +101,9 @@
         s.vx += -s.ox * 0.035; s.vv += -s.oy * 0.035;
         s.vx *= 0.9; s.vv *= 0.9; s.ox += s.vx; s.oy += s.vv;
 
-        if (r > 1.6 || a > 0.8) {
-          ctx.fillStyle = c(s.col, a * 0.18);
-          ctx.beginPath(); ctx.arc(px, py, r * 4, 0, 6.283); ctx.fill();
+        {
+          ctx.fillStyle = c(s.col, a * 0.22);
+          ctx.beginPath(); ctx.arc(px, py, r * 4.2, 0, 6.283); ctx.fill();
         }
         ctx.fillStyle = c(s.col, a);
         ctx.beginPath(); ctx.arc(px, py, r, 0, 6.283); ctx.fill();
@@ -137,7 +137,7 @@
       /* شهب */
       if (!reduce) {
         nextShoot -= dt;
-        if (nextShoot <= 0) { shoot(); nextShoot = 2200 + Math.random() * 4200; }
+        if (nextShoot <= 0) { nextShoot = 1e12; /* الشهب معطّلة */ }
       }
       for (var n = shoots.length - 1; n >= 0; n--) {
         var sh = shoots[n];
