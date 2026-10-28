@@ -37,7 +37,7 @@
       try {
         await api('/admin/api/settings', 'POST', formData(f));
         toast('تم الحفظ');
-        if (f.id === 'colors' || f.id === 'general' || f.id === 'images') setTimeout(function () { location.reload(); }, 600);
+        if (f.id === 'colors' || f.id === 'fonts' || f.id === 'general' || f.id === 'images') setTimeout(function () { location.reload(); }, 600);
       } catch (err) { toast(err.message, true); }
     });
   });

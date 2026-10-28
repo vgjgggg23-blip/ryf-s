@@ -7,6 +7,7 @@ const crypto = require('crypto');
 
 const db = require('./lib/db');
 const dc = require('./lib/discord');
+const { isFont } = require('./lib/fonts');
 const R = require('./lib/render');
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -204,6 +205,12 @@ app.post('/admin/api/settings', requireAdmin, (req, res) => {
   if (b.colors && typeof b.colors === 'object') {
     for (const k of Object.keys(s.colors)) {
       if (/^#[0-9a-f]{6}$/i.test(b.colors[k] || '')) s.colors[k] = b.colors[k];
+    }
+  }
+  if (b.fonts && typeof b.fonts === 'object') {
+    s.fonts = s.fonts || {};
+    for (const k of ['display', 'body']) {
+      if (isFont(b.fonts[k])) s.fonts[k] = b.fonts[k];
     }
   }
   if (b.images && typeof b.images === 'object') {
