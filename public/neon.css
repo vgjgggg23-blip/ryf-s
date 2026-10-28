@@ -159,3 +159,60 @@ footer.site { background: linear-gradient(180deg, transparent, color-mix(in srgb
 #up { position: fixed; inset-inline-end: 18px; bottom: 18px; z-index: 30; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--neon-a); background: var(--glass); backdrop-filter: blur(10px); color: var(--fg); font-size: 1.2rem; cursor: pointer; box-shadow: 0 0 14px var(--neon-a); }
 #up[hidden] { display: none; }
 #up:hover { box-shadow: 0 0 24px var(--glow-b); border-color: var(--glow-b); }
+
+
+/* ===== بطاقة الإحصائيات: مربعة + ثلاثية الأبعاد ===== */
+@property --sway { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.hgrid { perspective: 1100px; }
+.hcard {
+  position: relative; aspect-ratio: 1 / 1; width: min(100%, 340px); justify-self: center; align-content: center; gap: 14px; padding: 28px;
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  background-color: transparent;
+  background-image:
+    radial-gradient(240px circle at var(--mx, -999px) var(--my, -999px), color-mix(in srgb, #fff 16%, transparent), transparent 70%),
+    linear-gradient(150deg, color-mix(in srgb, var(--glow-a) 22%, var(--deep)), var(--deep) 70%);
+  border: 1px solid var(--glow-a); border-radius: 22px;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(calc(var(--ry, 0deg) + var(--sway))) ;
+  transition: transform .18s ease-out;
+  will-change: transform;
+  animation: pulse 4s ease-in-out infinite, float3d 6s ease-in-out infinite, sway 7s ease-in-out infinite;
+}
+.hcard::before { content: ""; position: absolute; inset: 10px; border-radius: 22px; background: var(--glow-a); filter: blur(30px); opacity: .45; transform: translateZ(-60px); pointer-events: none; }
+.hcard::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(120deg, transparent 35%, rgba(255,255,255,.12) 50%, transparent 65%); transform: translateZ(1px); }
+.hcard .rate { transform: translateZ(48px); justify-content: center; }
+.hcard .row { transform: translateZ(26px); }
+@keyframes float3d { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+@keyframes sway { 0%, 100% { --sway: -7deg; } 50% { --sway: 7deg; } }
+@media (max-width: 760px) { .hcard { width: min(100%, 300px); } .hgrid { perspective: 900px; } }
+@media (prefers-reduced-motion: reduce) { .hcard { animation: none; transform: none; } }
+
+
+/* ===== تهدئة النيون: نجوم فقط ===== */
+header.top::after { height: 1px; background: color-mix(in srgb, var(--fg) 14%, transparent); box-shadow: none; animation: none; }
+.brand span:not(.logo), header nav a:hover, header nav a[aria-current="page"], .kicker, .stars, .rate .num, .summary .num,
+.sec-head h2, .crumb a, .tile .go, .mv h3, .src, .btn.line, .fcols h4, .fcols a:hover, .ctaband h2, .starpick button.on { text-shadow: none; }
+.logo { box-shadow: none; animation: none; }
+header nav a[aria-current="page"] { box-shadow: inset 0 -2px 0 var(--glow-b); background: color-mix(in srgb, var(--fg) 6%, transparent); }
+.btn::after { display: none; }
+.btn, .btn.solid, .btn.light, .btn.line, .btn.ghost, .btn.solid:hover, .btn.light:hover, .btn.line:hover, .btn.ghost:hover { box-shadow: none; }
+.btn.solid { background: var(--accent); }
+.btn.line { box-shadow: none; }
+.kicker { animation: none; }
+.hero h1, .pagehead h1 { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--fg); filter: none; animation: none; }
+.sec-head h2::after { box-shadow: none; }
+.hcard, .store, .tile, .person, .srv, .review, .box, .acct, .summary, .mv > div, .empty, .feat, .step, .faq details, .ctaband {
+  background-image: none; box-shadow: none; border-color: color-mix(in srgb, var(--fg) 14%, transparent);
+}
+.tile:hover, .person:hover, .srv:hover, .review:hover, .acct:hover, .feat:hover { box-shadow: none; border-color: color-mix(in srgb, var(--glow-a) 55%, transparent); transform: translateY(-3px); }
+.tile .ico, .feat .ico, .step::before, .pav, .sav, .srv .ic, .person:hover .pav, .rolechip, .rolechip i, .role-b, .dots .on i, .bar i::after, .toast, .flash.ok, .flash.err, #up, #up:hover { box-shadow: none; }
+.pav, .sav, .srv .ic { box-shadow: 0 0 0 2px color-mix(in srgb, var(--glow-a) 60%, transparent); }
+.rform textarea:focus, .fld input:focus, .fld textarea:focus { box-shadow: none; }
+.anav a:hover { box-shadow: none; }
+footer.site { box-shadow: none; }
+.ctaband { box-shadow: none; }
+
+/* بطاقة الإحصائيات: تبقى مربعة ومتحركة بدون توهج */
+.hcard { background-color: color-mix(in srgb, var(--deep) 92%, var(--glow-a)); border: 1px solid color-mix(in srgb, var(--glow-a) 45%, transparent); animation: float3d 6s ease-in-out infinite, sway 7s ease-in-out infinite; }
+.hcard::before, .hcard::after { display: none; }
+@media (prefers-reduced-motion: reduce) { .hcard { animation: none; } }
