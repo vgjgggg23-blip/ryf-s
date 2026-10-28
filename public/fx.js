@@ -110,7 +110,7 @@
       }
 
       /* خطوط النيون: المؤشر ↔ النجوم القريبة، والنجوم القريبة ببعضها */
-      if (near.length) {
+      if (false && near.length) { /* خطوط الشبكة حول الماوس معطّلة */
         ctx.lineWidth = 1;
         for (var j = 0; j < near.length; j++) {
           var p = near[j];
