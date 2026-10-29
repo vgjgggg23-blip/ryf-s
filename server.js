@@ -7,6 +7,7 @@ const crypto = require('crypto');
 
 const db = require('./lib/db');
 const dc = require('./lib/discord');
+const persist = require('./lib/persist');
 const { isFont } = require('./lib/fonts');
 const R = require('./lib/render');
 
@@ -233,9 +234,15 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024, files: 1 },
 });
 app.post('/admin/api/upload', requireAdmin, (req, res) => {
-  upload.single('file')(req, res, (err) => {
+  upload.single('file')(req, res, async (err) => {
     if (err) return bad(res, err.code === 'LIMIT_FILE_SIZE' ? 'الصورة أكبر من 5 ميجابايت' : 'تعذر رفع الصورة');
     if (!req.file) return bad(res, 'الملف يجب أن يكون صورة (png, jpg, webp, gif)');
+    try {
+      await persist.saveFile(req.file.filename);
+    } catch (e) {
+      console.error('تعذر حفظ الصورة في قاعدة البيانات:', e.message);
+      return bad(res, 'تعذر حفظ الصورة بشكل دائم، حاول مرة أخرى');
+    }
     res.json({ url: '/uploads/' + req.file.filename });
   });
 });
@@ -300,8 +307,23 @@ app.use((err, req, res, next) => {
   res.status(500).send('حدث خطأ غير متوقع.');
 });
 
-app.listen(PORT, () => {
-  console.log(`الموقع يعمل على ${SITE_URL}`);
-  if (!ADMIN_IDS.length) console.log('تنبيه: ADMIN_IDS فارغ، لن يستطيع أحد دخول لوحة التحكم.');
-  dc.start();
-});
+async function main() {
+  try {
+    await persist.init(); // استعادة البيانات المحفوظة قبل استقبال أي طلب
+  } catch (e) {
+    console.error('فشل الاتصال بقاعدة البيانات (MONGODB_URI):', e.message);
+    process.exit(1); // نتوقف بدل أن نعمل ببيانات فارغة ونكتب فوق النسخة المحفوظة
+  }
+  const server = app.listen(PORT, () => {
+    console.log(`الموقع يعمل على ${SITE_URL}`);
+    if (!ADMIN_IDS.length) console.log('تنبيه: ADMIN_IDS فارغ، لن يستطيع أحد دخول لوحة التحكم.');
+    dc.start();
+  });
+  const bye = () => {
+    server.close();
+    persist.close().finally(() => process.exit(0));
+  };
+  process.on('SIGTERM', bye);
+  process.on('SIGINT', bye);
+}
+main();
