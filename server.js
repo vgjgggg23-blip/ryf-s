@@ -80,6 +80,19 @@ const page = (name) =>
     const out = await R.pages[name](ctx);
     res.send(R.layout(ctx, out));
   });
+app.get('/robots.txt', (req, res) =>
+  res.type('text/plain').send(`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /auth/\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`)
+);
+app.get('/sitemap.xml', (req, res) => {
+  const urls = ['/', '/about', '/management', '/partners', '/reviews', '/accounts'];
+  res
+    .type('application/xml')
+    .send(
+      `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+        urls.map((u) => `  <url><loc>${SITE_URL}${u === '/' ? '/' : u}</loc></url>`).join('\n') +
+        `\n</urlset>\n`
+    );
+});
 app.get('/', page('home'));
 app.get('/about', page('about'));
 app.get('/management', page('management'));
